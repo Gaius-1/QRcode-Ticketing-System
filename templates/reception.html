@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ page_title }}</title>
+
+	<link rel="stylesheet" href="/static/css/bootstrap-reboot.rtl.min.css">
+	<link rel="stylesheet" href="/static/css/bootstrap-grid.rtl.min.css">
+	<link rel="stylesheet" href="/static/css/bootstrap-utilities.rtl.min.css">
+	<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+	<div class="main">
+		<input id="password" class="form-control w-100 mb-3" type="text" placeholder="Admin password">
+		<button class="btn mb-3" onclick="startQRScanner()">Confirm and open QrScanner</button>
+		<div id="reader"></div>
+	</div>
+	
+	<script src="/static/js/jquery-3.6.0.min.js"></script>
+	<script src="/static/js/qrcode.min.js"></script>
+	<script src="/static/js/html5-qrcode.min.js"></script>
+	<script src="/static/js/script.js"></script>
+
+	<script type="text/javascript">
+
+		const BASE_URL = "{{ base_url }}";
+
+		const getPassword = () => {
+			return $("#password").val();
+		}
+
+		const reserveTicket = ticket_id => {
+			$.get(`${BASE_URL}/api/reception/${ticket_id}?password=${getPassword()}`).then(res => {
+				alert(`Guest ${res.first_name} ${res.last_name} with ticket code ${ticket_id} for the seat number ${res.entrance_count} entered. `);
+				return res;
+			}).fail(res => {
+				alert('The Ticket is Invalid.');
+			})
+		}
+
+		const getTicketIdFromURL = url => {
+			const parts = url.split("/");
+			return parts[parts.length-1]
+		}
+		const onScanSuccess = (decodedText, decodedResult) => {
+			const ticket_id = getTicketIdFromURL(decodedText)
+
+			if (ticket_id) {
+				reserveTicket(ticket_id)
+			}
+		}
+
+		const startQRScanner = () => {
+			if (getPassword()) {
+				var html5QrcodeScanner = new Html5QrcodeScanner(
+						"reader", {fps: 10, qrbox: 250});
+				html5QrcodeScanner.render(onScanSuccess);
+			}
+			else {
+				alert('Please Enter the Password');
+			}
+		}
+
+	</script>
+</body>
+</html>
