@@ -1,20 +1,19 @@
 # QR Code Ticket
 
-This service generates a unique qr code for each registered user and also provides a qr reader for the receptionist to
-verify each ticket powered by Fastapi
+This service generates a unique qr code for each registered user and also provides a qr reader for the receptionist to verify each ticket powered by Fastapi.
 
-## Screenshot
+<!-- ## Screenshot
 
 | Ticket                | Qr scanner                    |
 |-----------------------|-------------------------------|
-| ![ticket](ticket.png) | ![qr scanner](qr_scanner.png) | 
+| ![ticket](ticket.png) | ![qr scanner](qr_scanner.png) |  -->
 
 ## Getting Started
 
 Clone repository
 
 ```bash
-git clone https://github.com/sadjadeb/qrCode_ticket.git
+git clone https://github.com/Gaius-1/QRcode-Ticketing-System.git
 ```
 
 ### Prerequisite
@@ -22,7 +21,7 @@ git clone https://github.com/sadjadeb/qrCode_ticket.git
 Create an environment to run the app
 
 ```bash
-cd qrCode_ticket/
+cd QRcode-Ticketing-System/
 sudo apt-get install virtualenv
 virtualenv venv
 source venv/bin/activate
@@ -42,8 +41,8 @@ Your Excel file must be formatted as follows:
 
 | first_name | last_name | phone_number |
 |------------|-----------|--------------|
-| Sajad      | Ebrahimi  | 09151111111  |
-| Alireza    | Hooshyar  | 09152222222  |
+| John       | Doe       | 0556783722   |
+| Michelle   | Quansah   | 0559222222   |
 | ...        | ...       | ...          |
 
 Run the following command to add ticket ids and links for registered users
@@ -56,8 +55,8 @@ After that you have an Excel file named `output.xlsx` at the OUTPUT_FILE_PATH fo
 
 | first_name | last_name | phone_number | ticket_id | ticket_link |
 |------------|-----------|--------------|-----------|-------------|
-| Sajad      | Ebrahimi  | 09151111111  | 165153    | https://... |
-| Alireza    | Hooshyar  | 09152222222  | 895232    | https://... |
+| John       | Doe       | 0556783722   | 165153    | https://... |
+| Michelle   | Quansah   | 0559222222   | 895232    | https://... |
 | ...        | ...       | ...          | ...       | ...         |
 
 For easy sharing of the links, they stored in a separate column named `ticket_link`
@@ -109,4 +108,4 @@ Give a ⭐️ if you like this project!
 
 ## License
 
-[MIT](https://github.com/sadjadeb/qrCode_ticket/blob/master/LICENSE)
+[MIT](https://github.com/Gaius-1/QRcode-Ticketing-System/blob/main/LICENSE)
