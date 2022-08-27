@@ -24,7 +24,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-users = get_users_from_excel(OUTPUT_FILE_PATH)
 users_entrance = {}
 
 
@@ -53,14 +52,16 @@ async def ticket(request: Request, ticket_id: int):
 
 
 @app.get("/api/ticket/all")
-async def read_all_items(password: Optional[str] = None):
-    if has_permission(password):
-        return users_entrance, users
+# async def read_all_items(password: Optional[str] = None):
+async def read_all_items():
+    # if has_permission(password):
+    #     return users_entrance, users
+    return {"users": get_users_from_excel(OUTPUT_FILE_PATH), "users_entrance": users_entrance}
 
 
 @app.get("/api/ticket/{ticket_id}")
 async def read_items(ticket_id: int):
-    for user in users:
+    for user in get_users_from_excel(OUTPUT_FILE_PATH):
         if user['ticket_id'] == ticket_id:
             return user
     raise HTTPException(status_code=404, detail="User Not Found")
@@ -76,7 +77,7 @@ async def reception_page(request: Request):
 @app.get("/api/reception/{ticket_id}")
 async def verify_ticket(ticket_id: int, password: Optional[str] = None):
     if has_permission(password):
-        for user in users:
+        for user in get_users_from_excel(OUTPUT_FILE_PATH):
             if user['ticket_id'] == ticket_id:
                 if ticket_id in users_entrance:
                     users_entrance[ticket_id] += 1
@@ -92,3 +93,4 @@ async def verify_ticket(ticket_id: int, password: Optional[str] = None):
 
 def run_server():
     uvicorn.run(app, host="127.0.0.1", port=8000)
+
