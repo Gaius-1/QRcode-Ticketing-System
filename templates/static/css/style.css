@@ -1,4 +1,8 @@
 @import url(https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css);
+*{
+  box-sizing: border-box;
+}
+
 img {
   max-width: 100%;
   max-height: 100%;
@@ -6,17 +10,84 @@ img {
 }
 
 body {
-  background-color: #eee;
-  direction: rtl;
+  background-image: url("/static/img/poster.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   font-family: 'Vazir', sans-serif;
+  display: block;
+  backdrop-filter: blur(8px);
+  /* -webkit-filter: blur(8px); */
 }
 
 .main {
-  max-width: 500px;
-  margin: 40px auto;
-  background-color: #fff;
+  max-width: 600px;
+  display: flex;
+  margin: 106px auto;
+  background-color: rgb(226, 221, 221);
+  border-radius: 40px;
+  padding: 45px 30px;
+}
+
+.ticket {
+  max-width: 600px;
+  display: block;
+  margin: 90px auto;
+  background-color: rgb(226, 221, 221);
+  border-radius: 40px;
+  padding: 45px 40px;
+}
+
+.obscure-content {
+  visibility: hidden;
+}
+
+.popup {
+  width: 400px;
+  background: #fff;
+  border-radius: 6px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.1);
+  text-align: center;
+  padding: 0 30px 30px;
+  color: #333; 
+  visibility: hidden;
+  transition: transform 0.4s, top 0.4s;
+}
+
+.open-popup {
+  visibility: visible;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup img {
+  width: 100px;
+  margin-top: -50px;
+  border-radius: 50px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.popup h2 {
+  font-size: 38px;
+  font-weight: 500;
+  margin: 30px 0 10px;
+}
+
+.popup button {
+  width: 100%;
+  margin-top: 50px;
+  padding: 10px 0;
+  background: #6fd649;
+  color: #fff;
+  border: 0;
+  outline: none;
+  font-size: 18px;
   border-radius: 4px;
-  padding: 20px 30px;
+  cursor: pointer;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 }
 
 .logo {
@@ -56,14 +127,14 @@ body {
 }
 
 .desc dt {
-  width: 50%;
-  text-align: right;
+  width: 40%;
+  text-align: left;
   font-weight: normal;
   color: #444;
 }
 
 .desc dd {
-  width: 50%;
+  width: 45%;
   text-align: left;
   font-weight: bold;
 }
