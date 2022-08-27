@@ -5,17 +5,34 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{{ page_title }}</title>
 
-	<link rel="stylesheet" href="/static/css/bootstrap-reboot.rtl.min.css">
-	<link rel="stylesheet" href="/static/css/bootstrap-grid.rtl.min.css">
-	<link rel="stylesheet" href="/static/css/bootstrap-utilities.rtl.min.css">
+	<link rel="stylesheet" href="/static/css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="/static/css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="/static/css/bootstrap-utilities.min.css">
 	<link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-
-	<div class="main">
-		<input id="password" class="form-control w-100 mb-3" type="text" placeholder="Admin password">
-		<button class="btn mb-3" onclick="startQRScanner()">Confirm and open QrScanner</button>
+	<div class="main row g-3 align-items-center" id="obscure-content">
+		<div class="col-auto">
+		  <label for="inputPassword6" class="col-form-label">Password</label>
+		</div>
+		<div class="col-auto">
+		  <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" placeholder="Admin password">
+		</div>
+		<div class="col-auto">
+		  <span id="passwordHelpInline" class="form-text">
+			Must be 8-20 characters long.
+		  </span>
+		</div>
+		<button class="btn btn-primary" type="button" onclick="startQRScanner()">
+			Open QrScanner
+		</button>
 		<div id="reader"></div>
+	</div>
+	<div class="popup" id="popup">
+		<img src="tick.png">
+		<h2>Paid</h2>
+		<p id="popup-description"></p>
+		<button type="button" onclick="closePopup()">OK</button>
 	</div>
 	
 	<script src="/static/js/jquery-3.6.0.min.js"></script>
@@ -26,14 +43,29 @@
 	<script type="text/javascript">
 
 		const BASE_URL = "{{ base_url }}";
+		let popup = document.getElementById("popup");
+		let main = document.getElementById("obscure-content")
+
+		// function openPopup(ticket_type) {
+		function openPopup() {
+			popup.classList.add("open-popup");
+			main.classList.add("obscure-content");
+			$("#popup-description").html(`Your details has been successfully processed. Have a nice date.`)
+		}
+
+		function closePopup() {
+			popup.classList.remove("open-popup");
+			main.classList.remove("obscure-content");
+		}
 
 		const getPassword = () => {
-			return $("#password").val();
+			return $("#inputPassword6").val();
 		}
 
 		const reserveTicket = ticket_id => {
 			$.get(`${BASE_URL}/api/reception/${ticket_id}?password=${getPassword()}`).then(res => {
-				alert(`Guest ${res.first_name} ${res.last_name} with ticket code ${ticket_id} for the seat number ${res.entrance_count} entered. `);
+				openPopup();
+				// alert(`Guest ${res.first_name} ${res.last_name} with ticket code ${ticket_id} for the seat number ${res.entrance_count} entered. `);
 				return res;
 			}).fail(res => {
 				alert('The Ticket is Invalid.');

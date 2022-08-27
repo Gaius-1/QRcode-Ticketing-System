@@ -3,10 +3,61 @@
 <head>
     <meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css.map">
+    <link rel="stylesheet" href="/static/css/bootstrap.css.map">
+    <link rel="stylesheet" href="/static/css/main.css">
     <title>{{ page_title }}</title>
 </head>
-<body style="margin: 0px; padding: 0px; background-color: #011223;">
-    <img src="/static/img/poster.jpg" style="margin: 0 auto; display: block">
+<body style="margin: -6px; padding: 0px; background-color: #3c3c42;">
+    <img class="poster" src="/static/img/poster.jpg">
+    
+    <div class="container" id="wrapper"></div>
+    <table class="table table-dark table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Ticket ID</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+          
+        </tbody>
+    </table>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-primary" type="button">Verify Tickets
+            <a href="/reception"></a>
+        </button>
+    </div>
+    <script src="/static/js/jquery-3.6.0.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script>
+        const BASE_URL = "{{ base_url }}";
+        
+        $.get(`${BASE_URL}/api/ticket/all`).then(res => {
+            var guestData = res.users;
+            for (var i in guestData){
+                var count = Number(i)+1;
+                var row = `<tr>
+                            <th scope="row">${count}</th>
+                            <td>${guestData[i].first_name}</td>
+                            <td>${guestData[i].last_name}</td>
+                            <td>0${guestData[i].phone_number}</td>
+                            <td>${guestData[i].ticket_id}</td>
+                            </tr>`
+                var table = $('#table-body')
+                table.append(row)
+            }
+            return res;
+        }).fail(res => {
+            alert('The Ticket is Invalid.');
+        })
+        
+    </script>
 </body>
 </html>
