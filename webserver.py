@@ -43,7 +43,7 @@ hidden_imports=[
 users_entrance = {}
 
 def get_nginx_config():
-    BASE_DIR = pathlib.Path(__file__).parent.parent.parent
+    BASE_DIR = pathlib.Path(__file__).parent
     print(BASE_DIR)
 
     payload = nginx.Conf()
