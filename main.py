@@ -9,6 +9,8 @@ if __name__ == '__main__':
         if agree == 'y':
             from excel_handler import generate_ticket_link
             generate_ticket_link(INPUT_FILE_PATH, OUTPUT_FILE_PATH, DOMAIN_NAME)
+            from webserver import get_nginx_config
+            get_nginx_config()
 
     elif command == 'run_webserver':
         from webserver import run_server

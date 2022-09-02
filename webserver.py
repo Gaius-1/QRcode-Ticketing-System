@@ -6,6 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Optional
+import nginx
 import pathlib
 import uvicorn
 
@@ -24,8 +25,35 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+hidden_imports=[
+    'uvicorn.logging',
+    'uvicorn.loops',
+    'uvicorn.loops.auto',
+    'uvicorn.protocols',
+    'uvicorn.protocols.http',
+    'uvicorn.protocols.http.auto',
+    'uvicorn.protocols.websockets',
+    'uvicorn.protocols.websockets.auto',
+    'uvicorn.lifespan',
+    'uvicorn.lifespan.on',
+    # 'app',
+]
+
 users_entrance = {}
 
+def get_nginx_config():
+    payload = nginx.Conf()
+    s = nginx.Server()
+    s.add(
+        nginx.Key('server_name', '<DOMAIN_NAME>'),
+        nginx.Location('/',
+            nginx.Key('proxy_pass', 'http://localhost:8000')
+        )
+    )
+
+    payload.add(s)
+    nginx.dumpf(payload, '/etc/nginx/sites-enabled/ticket')
+    return True
 
 def has_permission(password: str):
     if password is None:
@@ -92,5 +120,5 @@ async def verify_ticket(ticket_id: int, password: Optional[str] = None):
 
 
 def run_server():
-    uvicorn.run(app, host="127.0.0.1", port=8000, reload=True, workers=2)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
     # uvicorn.run(app)
