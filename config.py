@@ -8,3 +8,5 @@ DOMAIN_NAME = 'http://127.0.0.1:8000'
 
 PAGE_TITLE = 'QR Ticket'
 EVENT_NAME = 'Circum Mundum, Dinner & Awards Night'
+
+NETLIFY_AUTH_TOKEN = '20hQaZrL1-uxKBFtd7ZZG51SlqmkLMx8YetLtig3OTk'
