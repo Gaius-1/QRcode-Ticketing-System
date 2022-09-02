@@ -43,7 +43,7 @@ hidden_imports=[
 users_entrance = {}
 
 def get_nginx_config():
-    BASE_DIR = pathlib.Path(__file__).parent.parent.resolve()
+    BASE_DIR = pathlib.Path(__file__).parent.resolve()
     print(BASE_DIR)
 
     payload = nginx.Conf()
@@ -56,7 +56,7 @@ def get_nginx_config():
     )
 
     payload.add(s)
-    nginx.dumpf(payload, os.path.join(BASE_DIR, 'etc/nginx/sites-enabled/ticket'))
+    nginx.dumpf(payload, os.path.join(BASE_DIR, '/etc/nginx/sites-enabled/ticket'))
     # nginx.dumpf(payload, '/etc/nginx/sites-enabled/ticket')
     return True
 
