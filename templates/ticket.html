@@ -41,7 +41,7 @@
 		</div>
 	</div>
 
-	<script src="/static/js/jquery-3.6.0.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="/static/js/qrcode.min.js"></script>
 	<script src="/static/js/script.js"></script>
 
@@ -51,6 +51,7 @@
 
 		function get_ticket(ticket_id) {
 			return $.get(`${BASE_URL}/api/ticket/${ticket_id}`).then(res => {
+				console.log(res);
 				$("#user-name").html(`${res.first_name} ${res.last_name}`);
 				$("#ticket-id").html(`${res.ticket_id}`);
 				$("#phone-number").html(`0${res.phone_number}`);
