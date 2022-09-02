@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "netlify-cli": "^11.5.1"
+  },
+  "dependencies": {
+    "heroku": "^7.63.0"
   }
 }
