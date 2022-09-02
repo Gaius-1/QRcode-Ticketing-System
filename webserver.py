@@ -44,7 +44,7 @@ users_entrance = {}
 
 def get_nginx_config():
     BASE_DIR = pathlib.Path(__file__).parent.resolve()
-    os.path.join(BASE_DIR, 'app/laundryman_frontend/build/static')
+    print(BASE_DIR)
 
     payload = nginx.Conf()
     s = nginx.Server()
