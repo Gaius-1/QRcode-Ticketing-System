@@ -42,6 +42,9 @@ hidden_imports=[
 users_entrance = {}
 
 def get_nginx_config():
+    BASE_DIR = pathlib.Path(__file__).parent.resolve()
+    os.path.join(BASE_DIR, 'app/laundryman_frontend/build/static')
+
     payload = nginx.Conf()
     s = nginx.Server()
     s.add(
@@ -52,7 +55,8 @@ def get_nginx_config():
     )
 
     payload.add(s)
-    nginx.dumpf(payload, '/etc/nginx/sites-enabled/ticket')
+    nginx.dumpf(payload, os.path.join(BASE_DIR, '/etc/nginx/sites-enabled/ticket'))
+    # nginx.dumpf(payload, '/etc/nginx/sites-enabled/ticket')
     return True
 
 def has_permission(password: str):
