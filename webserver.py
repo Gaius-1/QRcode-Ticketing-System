@@ -56,7 +56,7 @@ def get_nginx_config():
     )
 
     payload.add(s)
-    nginx.dumpf(payload, os.path.join(BASE_DIR, '/etc/nginx/sites-enabled/ticket'))
+    nginx.dumpf(payload, os.path.join(BASE_DIR, 'etc/nginx/sites-enabled/ticket'))
     # nginx.dumpf(payload, '/etc/nginx/sites-enabled/ticket')
     return True
 
