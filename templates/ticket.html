@@ -52,7 +52,7 @@
 		function get_ticket(ticket_id) {
 			return $.get(`${BASE_URL}/api/ticket/${ticket_id}`).then(res => {
 				console.log(res);
-				$("#user-name").html(`${res.first_name} ${res.last_name}`);
+				$("#user-name").html(`${res.name}`);
 				$("#ticket-id").html(`${res.ticket_id}`);
 				$("#phone-number").html(`${res.phone_number}`);
 				return res;

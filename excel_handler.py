@@ -16,7 +16,7 @@ def add_new_guest_from_excel(file_path, guests, base_url):
             ticket_id = random.randint(100000, 999999)
         generated_ids.append(ticket_id)
         ticket_link = base_url + '/ticket/' + str(ticket_id)
-        ws.append((guest['first_name'], guest['last_name'], guest['phone_number'], ticket_id, ticket_link))
+        ws.append((guest['name'], guest['phone_number'], guest['status'], ticket_id, ticket_link))
     wb.save(file_path)
 
 
@@ -34,9 +34,9 @@ def get_users_from_excel(file_path):
                     'Excel file is not correct. Please provide a ticket id for users. You can add it simply by running the generate_ticket_link command.')
         if i > 1:
             users_list.append({
-                'first_name': ws.cell(row=i, column=1).value,
-                'last_name': ws.cell(row=i, column=2).value,
-                'phone_number': ws.cell(row=i, column=3).value,
+                'name': ws.cell(row=i, column=1).value,
+                'phone_number': ws.cell(row=i, column=2).value,
+                'status': ws.cell(row=i, column=3).value,
                 'ticket_id': ws.cell(row=i, column=4).value,
             })
 
@@ -49,9 +49,9 @@ def generate_ticket_link(input_file_path, output_file_path, base_url):
     """
     output_wb = openpyxl.load_workbook(output_file_path)
     output_ws = output_wb.active
-    output_ws.cell(row=1, column=1).value = 'first_name'
-    output_ws.cell(row=1, column=2).value = 'last_name'
-    output_ws.cell(row=1, column=3).value = 'phone_number'
+    output_ws.cell(row=1, column=1).value = 'name'
+    output_ws.cell(row=1, column=2).value = 'phone_number'
+    output_ws.cell(row=1, column=3).value = 'status'
     output_ws.cell(row=1, column=4).value = 'ticket_id'
     output_ws.cell(row=1, column=5).value = 'ticket_link'
 

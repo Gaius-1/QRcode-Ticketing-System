@@ -47,10 +47,10 @@
 		let main = document.getElementById("obscure-content")
 
 		// function openPopup(ticket_type) {
-		function openPopup(fname, lname) {
+		function openPopup(name, status) {
 			popup.classList.add("open-popup");
 			main.classList.add("obscure-content");
-			$("#popup-description").html(`Your details has been successfully processed. Have a nice date, ${fname} ${lname}.`)
+			$("#popup-description").html(`Your details has been successfully processed. Have a nice date, ${name}.`)
 		}
 
 		function closePopup() {
@@ -64,7 +64,7 @@
 
 		const reserveTicket = ticket_id => {
 			$.get(`${BASE_URL}/api/reception/${ticket_id}?password=${getPassword()}`).then(res => {
-				openPopup(res.first_name, res.last_name);
+				openPopup(res.name, res.status);
 				// alert(`Guest ${res.first_name} ${res.last_name} with ticket code ${ticket_id} for the seat number ${res.entrance_count} entered. `);
 				return res;
 			}).fail(res => {

@@ -18,9 +18,9 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
+                <th scope="col">Name</th>
                 <th scope="col">Phone Number</th>
+                <th scope="col">Ticket Type</th>
                 <th scope="col">Ticket ID</th>
             </tr>
         </thead>
@@ -43,9 +43,9 @@
                 var count = Number(i)+1;
                 var row = `<tr>
                             <th scope="row">${count}</th>
-                            <td>${guestData[i].first_name}</td>
-                            <td>${guestData[i].last_name}</td>
+                            <td>${guestData[i].name}</td>
                             <td>${guestData[i].phone_number}</td>
+                            <td>${guestData[i].status}</td>
                             <td>${guestData[i].ticket_id}</td>
                             </tr>`
                 var table = $('#table-body')

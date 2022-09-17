@@ -118,8 +118,8 @@ async def verify_ticket(ticket_id: int, password: Optional[str] = None):
                     users_entrance[ticket_id] = 1
 
                 return {
-                    'first_name': user['first_name'],
-                    'last_name': user['last_name'],
+                    'name': user['name'],
+                    'status': user['status'],
                     'entrance_count': users_entrance[ticket_id]
                 }
 
