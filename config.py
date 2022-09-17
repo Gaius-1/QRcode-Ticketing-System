@@ -3,10 +3,10 @@
 INPUT_FILE_PATH = './assets/Participants.xlsx'
 OUTPUT_FILE_PATH = './assets/Approved_Guests.xlsx'
 ADMIN_PASSWORD = '1234'
-# DOMAIN_NAME = 'http://127.0.0.1:8000'
-DOMAIN_NAME = 'https://8000-gaius1-qrcodeticketings-256zdob18db.ws-eu63.gitpod.io'
+DOMAIN_NAME = 'http://127.0.0.1:8000'
+# DOMAIN_NAME = 'https://8000-gaius1-qrcodeticketings-256zdob18db.ws-eu63.gitpod.io'
 
-PAGE_TITLE = 'QR Ticket'
+PAGE_TITLE = 'Circum Mundum'
 EVENT_NAME = 'Circum Mundum, Dinner & Awards Night'
 
 NETLIFY_AUTH_TOKEN = '20hQaZrL1-uxKBFtd7ZZG51SlqmkLMx8YetLtig3OTk'
