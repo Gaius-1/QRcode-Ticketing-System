@@ -123,7 +123,10 @@ async def verify_ticket(ticket_id: int, password: Optional[str] = None):
                     'entrance_count': users_entrance[ticket_id]
                 }
 
-
 def run_server():
-    uvicorn.run(app, host="127.0.0.1", port=8000, reload=True, workers=2)
-    # uvicorn.run(app)
+        # uvicorn.run(app, host="127.0.0.1", port=8000, reload=True, workers=2)
+        uvicorn.run(app)
+
+# if __name__ == '__main__':
+    # run_server()
+    
