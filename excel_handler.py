@@ -1,6 +1,24 @@
 import openpyxl
 import random
 
+generated_ids = []
+
+def add_new_guest_from_excel(file_path, guests, base_url):
+    """
+    Append new data to existing excel file
+    """
+    wb = openpyxl.load_workbook(file_path)
+    ws = wb.active
+    # apply updates using the guests dict that contains new data to be appended
+    for guest in guests:
+        ticket_id = random.randint(100000, 999999)
+        while ticket_id in generated_ids:
+            ticket_id = random.randint(100000, 999999)
+        generated_ids.append(ticket_id)
+        ticket_link = base_url + '/ticket/' + str(ticket_id)
+        ws.append((guest['first_name'], guest['last_name'], guest['phone_number'], ticket_id, ticket_link))
+    wb.save(file_path)
+
 
 def get_users_from_excel(file_path):
     """
@@ -40,7 +58,6 @@ def generate_ticket_link(input_file_path, output_file_path, base_url):
     input_wb = openpyxl.load_workbook(input_file_path)
     input_ws = input_wb.active
 
-    generated_ids = []
     for i in range(2, input_ws.max_row + 1):
         # Generate ticket id
         ticket_id = random.randint(100000, 999999)

@@ -54,7 +54,7 @@
 				console.log(res);
 				$("#user-name").html(`${res.first_name} ${res.last_name}`);
 				$("#ticket-id").html(`${res.ticket_id}`);
-				$("#phone-number").html(`0${res.phone_number}`);
+				$("#phone-number").html(`${res.phone_number}`);
 				return res;
 			})
 		}

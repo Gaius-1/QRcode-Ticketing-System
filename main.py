@@ -1,5 +1,10 @@
 from config import *
+from webserver import *
 import sys
+
+guests = [{"first_name": "Frederick", "last_name": "Agbo", "phone_number": "0558478823"},
+          {"first_name": "John", "last_name": "Smith", "phone_number": "0245397251"}
+         ]
 
 if __name__ == '__main__':
     command = sys.argv[1] if len(sys.argv) > 1 else 'help'
@@ -13,8 +18,12 @@ if __name__ == '__main__':
             get_nginx_config()
 
     elif command == 'run_webserver':
-        from webserver import run_server
+        # from webserver import run_server
         run_server()
+
+    elif command == 'add_ticket_id':
+        from excel_handler import add_new_guest_from_excel
+        add_new_guest_from_excel(OUTPUT_FILE_PATH, guests, DOMAIN_NAME)
 
     elif command == 'help':
         print('Available commands:')
