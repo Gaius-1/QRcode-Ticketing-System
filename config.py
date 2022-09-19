@@ -9,4 +9,4 @@ DOMAIN_NAME = 'https://93mtzf.deta.dev'
 PAGE_TITLE = 'Circum Mundum'
 EVENT_NAME = 'Circum Mundum, Dinner & Awards Night'
 
-NETLIFY_AUTH_TOKEN = '20hQaZrL1-uxKBFtd7ZZG51SlqmkLMx8YetLtig3OTk'
+DETA_ACCESS_TOKEN = 'Yg9Gkgo7_ZAWBHw5H4jkBivQk6f5awV2w5YvvL2mJ'

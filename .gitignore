@@ -1,4 +1,13 @@
 node_modules
 
+__pychache__
+
 # Local Netlify folder
 .netlify
+
+# Local DETA folder
+.deta
+
+# Local ENV folder
+.env
+.venv
