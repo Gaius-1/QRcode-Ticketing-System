@@ -2,8 +2,11 @@ from config import *
 from webserver import *
 import sys
 
-guests = [{"name": "Frederick & Sylvia", "phone_number": "0558478823", "status": "COUPLE TICKET"},
-          {"name": "John", "phone_number": "0245397251", "status": "SINGLE TICKET"}]
+guests = [{"name": "Wendy", "phone_number": "0552354449", "status": "SINGLE TICKET"},
+          {"name": "Dzramado E.", "phone_number": "0247622263", "status": "SINGLE TICKET"},
+          {"name": "Barbara", "phone_number": "0545873989", "status": "SINGLE TICKET"},
+          {"name": "Dzifa", "phone_number": "0559586391", "status": "SINGLE TICKET"},
+          {"name": "Armando & Bae", "phone_number": "0594764182", "status": "COUPLE TICKET"}]
 
 if __name__ == '__main__':
     command = sys.argv[1] if len(sys.argv) > 1 else 'help'
