@@ -23,12 +23,12 @@ if __name__ == '__main__':
         # from webserver import run_server
         run_server()
 
-    elif command == 'add_ticket_id':
+    elif command == 'add_guests':
         from excel_handler import add_new_guest_from_excel
         add_new_guest_from_excel(OUTPUT_FILE_PATH, guests, DOMAIN_NAME)
 
     elif command == 'help':
         print('Available commands:')
-        print('\tadd_ticket_id')
+        print('\tadd_guests')
         print('\trun_webserver')
         print('\thelp')
