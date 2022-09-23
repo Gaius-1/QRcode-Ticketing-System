@@ -2,11 +2,16 @@ from config import *
 from webserver import *
 import sys
 
-guests = [{"name": "Wendy", "phone_number": "0552354449", "status": "SINGLE TICKET"},
-          {"name": "Dzramado E.", "phone_number": "0247622263", "status": "SINGLE TICKET"},
-          {"name": "Barbara", "phone_number": "0545873989", "status": "SINGLE TICKET"},
-          {"name": "Dzifa", "phone_number": "0559586391", "status": "SINGLE TICKET"},
-          {"name": "Armando & Bae", "phone_number": "0594764182", "status": "COUPLE TICKET"}]
+guests = [{"name": "Claudia", "phone_number": "0245470502", "status": "SINGLE TICKET"},
+          {"name": "Sammy", "phone_number": "0557491888", "status": "SINGLE TICKET"},
+          {"name": "Jennifer Bour", "phone_number": "0549762924", "status": "SINGLE TICKET"},
+          {"name": "Gabby", "phone_number": "0554567060", "status": "SINGLE TICKET"},
+          {"name": "Matilda", "phone_number": "0552972804", "status": "SINGLE TICKET"},
+          {"name": "Marvina", "phone_number": "0501352332", "status": "SINGLE TICKET"},
+          {"name": "Collins", "phone_number": "0549224512", "status": "SINGLE TICKET"},
+          {"name": "William & Jessica", "phone_number": "0591910642", "status": "COUPLE TICKET"},
+          {"name": "Kyei Mensah & Comfort", "phone_number": "0554501944", "status": "COUPLE TICKET"},
+          {"name": "Keziah, Tracy, Joshua and Kelvin", "phone_number": "0204557417", "status": "DOUBLE TICKET"}]
 
 if __name__ == '__main__':
     command = sys.argv[1] if len(sys.argv) > 1 else 'help'
