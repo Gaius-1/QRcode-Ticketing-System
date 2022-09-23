@@ -11,7 +11,8 @@ guests = [{"name": "Claudia", "phone_number": "0245470502", "status": "SINGLE TI
           {"name": "Collins", "phone_number": "0549224512", "status": "SINGLE TICKET"},
           {"name": "William & Jessica", "phone_number": "0591910642", "status": "COUPLE TICKET"},
           {"name": "Kyei Mensah & Comfort", "phone_number": "0554501944", "status": "COUPLE TICKET"},
-          {"name": "Keziah, Tracy, Joshua and Kelvin", "phone_number": "0204557417", "status": "DOUBLE TICKET"}]
+          {"name": "Keziah, Tracy, Joshua and Kelvin", "phone_number": "0204557417", "status": "DOUBLE TICKET"}
+         ]
 
 if __name__ == '__main__':
     command = sys.argv[1] if len(sys.argv) > 1 else 'help'
