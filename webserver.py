@@ -1,11 +1,15 @@
-from config import *
 from excel_handler import get_users_from_excel
-from fastapi import FastAPI, HTTPException, status, Request
+from fastapi import FastAPI, HTTPException, Depends, status, Request
+from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi_login import LoginManager #Loginmanager Class
+from fastapi_login.exceptions import InvalidCredentialsException #Exception class
 from typing import Optional
+from config import *
+from hasher import Hasher
 import nginx
 import pathlib
 import uvicorn
@@ -40,8 +44,6 @@ hidden_imports=[
     # 'app',
 ]
 
-users_entrance = {}
-
 def get_nginx_config():
     BASE_DIR = pathlib.Path(__file__).parent
     print(BASE_DIR)
@@ -60,20 +62,61 @@ def get_nginx_config():
     # nginx.dumpf(payload, '/etc/nginx/sites-enabled/ticket')
     return True
 
-def has_permission(password: str):
-    if password is None:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password required")
-    if password != ADMIN_PASSWORD:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect password")
-    else:
-        return True
+users_entrance = {}
+# To obtain a suitable secret key you can run | import os; print(os.urandom(24).hex())
+manager = LoginManager(SECRET, token_url="/auth/login", use_cookie=True)
+manager.cookie_name = "auth"
 
+DB = {"admin":{"password":Hasher.get_password_hash(ADMIN_PASSWORD)}} # unhashed
 
-@app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request,
-                                                     "page_title": PAGE_TITLE})
+@manager.user_loader
+def load_user(username:str):
+    user = DB.get(username)
+    return user
 
+@app.get("/auth/login", response_class=HTMLResponse)
+def loginwithCreds(request:Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+@app.post("/auth/login")
+def login(data: OAuth2PasswordRequestForm = Depends()):
+    username = data.username
+    password = data.password
+    user = load_user(username)
+    
+    if not user:
+        raise InvalidCredentialsException
+
+    elif not Hasher.verify_password(password, user['password']):
+        raise InvalidCredentialsException
+
+    access_token = manager.create_access_token(
+    data={"sub":username})
+    resp = RedirectResponse(url="/reception", status_code=status.HTTP_302_FOUND)
+    manager.set_cookie(resp, access_token)
+    return resp
+        
+
+@app.get("/reception", response_class=HTMLResponse)
+async def reception_page(request: Request, _=Depends(manager)):
+    return templates.TemplateResponse("reception.html", {"request": request,
+                                                         "base_url": DOMAIN_NAME,
+                                                         "page_title": PAGE_TITLE})
+
+@app.get("/api/reception/{ticket_id}")
+async def verify_ticket(ticket_id: int):
+    for user in get_users_from_excel(OUTPUT_FILE_PATH):
+        if user['ticket_id'] == ticket_id:
+            if ticket_id in users_entrance:
+                users_entrance[ticket_id] += 1
+            else:
+                users_entrance[ticket_id] = 1
+
+            return {
+                'name': user['name'],
+                'status': user['status'],
+                'entrance_count': users_entrance[ticket_id]
+            }
 
 @app.get("/ticket/{ticket_id}", response_class=HTMLResponse)
 async def ticket(request: Request, ticket_id: int):
@@ -85,12 +128,8 @@ async def ticket(request: Request, ticket_id: int):
 
 
 @app.get("/api/ticket/all")
-# async def read_all_items(password: Optional[str] = None):
 async def read_all_items():
-    # if has_permission(password):
-    #     return users_entrance, users
     return {"users": get_users_from_excel(OUTPUT_FILE_PATH), "users_entrance": users_entrance}
-
 
 @app.get("/api/ticket/{ticket_id}")
 async def read_items(ticket_id: int):
@@ -100,28 +139,11 @@ async def read_items(ticket_id: int):
     raise HTTPException(status_code=404, detail="User Not Found")
 
 
-@app.get("/reception", response_class=HTMLResponse)
-async def reception_page(request: Request):
-    return templates.TemplateResponse("reception.html", {"request": request,
-                                                         "base_url": DOMAIN_NAME,
-                                                         "page_title": PAGE_TITLE})
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request,
+                                                     "page_title": PAGE_TITLE})
 
-
-@app.get("/api/reception/{ticket_id}")
-async def verify_ticket(ticket_id: int, password: Optional[str] = None):
-    if has_permission(password):
-        for user in get_users_from_excel(OUTPUT_FILE_PATH):
-            if user['ticket_id'] == ticket_id:
-                if ticket_id in users_entrance:
-                    users_entrance[ticket_id] += 1
-                else:
-                    users_entrance[ticket_id] = 1
-
-                return {
-                    'name': user['name'],
-                    'status': user['status'],
-                    'entrance_count': users_entrance[ticket_id]
-                }
 
 def run_server():
         uvicorn.run(app, host="127.0.0.1", port=8000)

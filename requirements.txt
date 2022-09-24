@@ -5,12 +5,15 @@ Command==0.1.0
 crossplane==0.5.7
 et-xmlfile==1.1.0
 fastapi==0.70.1
+fastapi-login==1.8.2
 h11==0.13.0
 Jinja2==3.0.3
 openpyxl==3.0.9
 pydantic==1.9.2
 python-dateutil==1.5
+python-multipart==0.0.5
 python-nginx==1.5.7
 sniffio==1.2.0
 starlette==0.16.0
 uvicorn==0.16.0
+bcrypt==4.0.0

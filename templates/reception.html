@@ -11,18 +11,7 @@
 	<link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-	<div class="main row g-3 align-items-center" id="obscure-content">
-		<div class="col-auto">
-		  <label for="inputPassword6" class="col-form-label">Password</label>
-		</div>
-		<div class="col-auto">
-		  <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" placeholder="Admin password">
-		</div>
-		<div class="col-auto">
-		  <span id="passwordHelpInline" class="form-text">
-			Must be 8-20 characters long.
-		  </span>
-		</div>
+	<div id="particles-js" class="main row g-3 align-items-center" id="obscure-content">
 		<button class="btn btn-primary" type="button" onclick="startQRScanner()">
 			Open QrScanner
 		</button>
@@ -35,6 +24,8 @@
 		<button type="button" onclick="closePopup()">OK</button>
 	</div>
 	
+	<script src="/static/js/particles.js"></script>
+	<script src="/static/js/app.js"></script>
 	<script src="/static/js/jquery-3.6.0.min.js"></script>
 	<script src="/static/js/qrcode.min.js"></script>
 	<script src="/static/js/html5-qrcode.min.js"></script>
@@ -58,14 +49,9 @@
 			main.classList.remove("obscure-content");
 		}
 
-		const getPassword = () => {
-			return $("#inputPassword6").val();
-		}
-
 		const reserveTicket = ticket_id => {
-			$.get(`${BASE_URL}/api/reception/${ticket_id}?password=${getPassword()}`).then(res => {
+			$.get(`${BASE_URL}/api/reception/${ticket_id}`).then(res => {
 				openPopup(res.name, res.status);
-				// alert(`Guest ${res.first_name} ${res.last_name} with ticket code ${ticket_id} for the seat number ${res.entrance_count} entered. `);
 				return res;
 			}).fail(res => {
 				alert('The Ticket is Invalid.');
@@ -85,14 +71,9 @@
 		}
 
 		const startQRScanner = () => {
-			if (getPassword()) {
-				var html5QrcodeScanner = new Html5QrcodeScanner(
-						"reader", {fps: 10, qrbox: 250});
-				html5QrcodeScanner.render(onScanSuccess);
-			}
-			else {
-				alert('Please Enter the Password');
-			}
+			var html5QrcodeScanner = new Html5QrcodeScanner(
+					"reader", {fps: 10, qrbox: 250});
+			html5QrcodeScanner.render(onScanSuccess);
 		}
 
 	</script>
