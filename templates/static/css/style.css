@@ -10,15 +10,30 @@ img {
 }
 
 body {
-  background-image: url("/static/img/poster.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  position: relative;
   font-family: 'Vazir', sans-serif;
   margin: 80px 10px 100px 10px;
   padding: 10px;
   height: 50vh;
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("/static/img/poster.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: blur(8px); /* Adjust the blur intensity as needed */
+  z-index: -1;
+}
+
+/* Rest of your existing CSS rules */
+
 
 #particles-js {
   height: 100%;
