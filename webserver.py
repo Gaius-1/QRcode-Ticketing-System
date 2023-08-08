@@ -64,7 +64,11 @@ def get_nginx_config():
 
 users_entrance = {}
 # To obtain a suitable secret key you can run | import os; print(os.urandom(24).hex())
-manager = LoginManager(SECRET, token_url="/auth/login", use_cookie=True)
+# Convert the string to bytes using the 'encode()' method
+SECRET_BYTES = SECRET.encode()
+
+# Now use SECRET_BYTES in the LoginManager
+manager = LoginManager(SECRET_BYTES, token_url="/auth/login", use_cookie=True)
 manager.cookie_name = "auth"
 
 DB = {"admin":{"password":Hasher.get_password_hash(ADMIN_PASSWORD)}} # unhashed
@@ -146,8 +150,8 @@ async def root(request: Request):
 
 
 def run_server():
-        uvicorn.run(app, host="127.0.0.1", port=8000)
-        # uvicorn.run(app)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+    # uvicorn.run(app)
 
 # if __name__ == '__main__':
     # run_server()
