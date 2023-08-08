@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -11,14 +12,14 @@
 	<link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-	<div id="particles-js" class="main row g-3 align-items-center" id="obscure-content">
+	<div id="particles-js" class="main row g-3 align-items-center obscure-background">
 		<button class="btn btn-primary" type="button" onclick="startQRScanner()">
-			Open QrScanner
+			Open QR Scanner
 		</button>
 		<div id="reader"></div>
 	</div>
 	<div class="popup" id="popup">
-		<img src="/static/img/404-tick.png">
+		<img src="/static/img/404-tick.png" alt="Tick Icon">
 		<h2>Paid</h2>
 		<p id="popup-description"></p>
 		<button type="button" onclick="closePopup()">OK</button>
@@ -32,16 +33,14 @@
 	<script src="/static/js/script.js"></script>
 
 	<script type="text/javascript">
-
 		const BASE_URL = "{{ base_url }}";
-		let popup = document.getElementById("popup");
-		let main = document.getElementById("obscure-content")
+		const popup = document.getElementById("popup");
+		const main = document.getElementById("particles-js");
 
-		// function openPopup(ticket_type) {
 		function openPopup(name, status) {
 			popup.classList.add("open-popup");
 			main.classList.add("obscure-content");
-			$("#popup-description").html(`Your details has been successfully processed. Have a nice date, <b>${name}.</b> 🎊🎊`)
+			$("#popup-description").html(`Your details have been successfully processed. Have a great time, <b>${name}.</b> 🎉🎉`);
 		}
 
 		function closePopup() {
@@ -49,30 +48,32 @@
 			main.classList.remove("obscure-content");
 		}
 
-		const reserveTicket = ticket_id => {
-			$.get(`${BASE_URL}/api/reception/${ticket_id}`).then(res => {
-				openPopup(res.name, res.status);
-				return res;
-			}).fail(res => {
-				alert('The Ticket is Invalid.');
-			})
+		function reserveTicket(ticket_id) {
+			$.get(`${BASE_URL}/api/reception/${ticket_id}`)
+				.done(res => {
+					openPopup(res.name, res.status);
+				})
+				.fail(() => {
+					alert('The Ticket is Invalid.');
+				});
 		}
 
-		const getTicketIdFromURL = url => {
+		function getTicketIdFromURL(url) {
 			const parts = url.split("/");
-			return parts[parts.length-1]
+			return parts[parts.length - 1];
 		}
-		const onScanSuccess = (decodedText, decodedResult) => {
-			const ticket_id = getTicketIdFromURL(decodedText)
+
+		const onScanSuccess = (decodedText) => {
+			const ticket_id = getTicketIdFromURL(decodedText);
 
 			if (ticket_id) {
-				reserveTicket(ticket_id)
+				reserveTicket(ticket_id);
 			}
 		}
 
-		const startQRScanner = () => {
-			var html5QrcodeScanner = new Html5QrcodeScanner(
-					"reader", {fps: 10, qrbox: 250});
+		function startQRScanner() {
+			const html5QrcodeScanner = new Html5QrcodeScanner(
+				"reader", { fps: 10, qrbox: 250 });
 			html5QrcodeScanner.render(onScanSuccess);
 		}
 

@@ -2,61 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css.map">
-    <link rel="stylesheet" href="/static/css/bootstrap.css.map">
-    <link rel="stylesheet" href="/static/css/main.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <!-- Include DataTables CSS -->
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.css" rel="stylesheet">
 </head>
-<body style="margin: -6px; padding: 0px; background-color: #3c3c42;">
-    <img class="poster" src="/static/img/poster.jpg">
-    
-    <div class="container" id="wrapper"></div>
-    <table class="table table-dark table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Ticket Type</th>
-                <th scope="col">Ticket ID</th>
-            </tr>
-        </thead>
-        <tbody id="table-body">
-          
-        </tbody>
-    </table>
+<body class="bg-dark text-white">
+    <header class="bg-dark text-center py-3">
+        <h1 class="h3">{{ page_title }}</h1>
+    </header>
 
-    <div class="d-grid gap-2 col-6 mx-auto">
-        <a href="/auth/login"><button class="btn btn-primary col-12" type="button">Verify Tickets</button></a>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <img class="img-fluid" src="/static/img/poster.jpeg" alt="Event Poster">
+            </div>
+        </div>
     </div>
-    <br>
+
+    <div class="container mt-4">
+        <div class="table-responsive">
+            <table id="data-table" class="table table-dark table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Ticket Type</th>
+                        <th scope="col">Ticket ID</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container text-center mt-4">
+        <a href="/auth/login" class="btn btn-primary btn-lg">Verify Tickets</a>
+    </div>
+
     <script src="/static/js/jquery-3.6.0.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+    <!-- Include DataTables JS -->
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.js"></script>
     <script>
         const BASE_URL = "{{ base_url }}";
-        
-        $.get(`${BASE_URL}/api/ticket/all`).then(res => {
-            var guestData = res.users;
-            for (var i in guestData){
-                var count = Number(i)+1;
-                var row = `<tr>
-                            <th scope="row">${count}</th>
-                            <td>${guestData[i].name}</td>
-                            <td>${guestData[i].phone_number}</td>
-                            <td>${guestData[i].status}</td>
-                            <td>${guestData[i].ticket_id}</td>
-                            </tr>`
-                var table = $('#table-body')
-                table.append(row)
-            }
-            return res;
-        }).fail(res => {
-            alert('The Ticket is Invalid.');
-        })
-        
+
+        $(document).ready(function () {
+            const dataTable = $('#data-table').DataTable({
+                // Add DataTables options here if needed
+            });
+
+            $.get(`${BASE_URL}/api/ticket/all`)
+                .done(res => {
+                    const guestData = res.users;
+
+                    guestData.forEach((guest, index) => {
+                        const count = index + 1;
+                        const row = [
+                            count,
+                            guest.name,
+                            guest.phone_number,
+                            guest.status,
+                            guest.ticket_id
+                        ];
+                        dataTable.row.add(row); // Add the row to the DataTable
+                    });
+
+                    dataTable.draw(); // Redraw the DataTable to show the new data
+                })
+                .fail(() => {
+                    alert('Failed to fetch ticket data.');
+                });
+        });
     </script>
 </body>
 </html>

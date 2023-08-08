@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -12,31 +13,27 @@
 </head>
 <body>
 	<div class="ticket">
-		<div class="justify-content-between align-items-left">
-			<div style="margin: 0px -40px;">
-				<div class="logo ms-auto">
-					<img src="/static/img/logo3.png" alt="LOGO 2">
-				</div>
-			</div>
-		</div>
-		<div id="qrcode" class="qrcode">
-
+		<div class="logo d-flex justify-content-center align-items-center mt-3">
+			<img src="/static/img/logo3.png" alt="LOGO 2">
 		</div>
 
-		<h1 class="title">{{ event_name }}</h1>
-		<h2 id="user-name" class="subtitle"></h2>
+		<div id="qrcode" class="qrcode d-flex justify-content-center align-items-center"></div>
 
-		<dl class="desc">
+		<h1 class="title text-center">{{ event_name }}</h1>
+		<h2 id="user-name" class="subtitle text-center"></h2>
 
+		<dl class="desc text-center">
 			<dt>Ticket Number</dt>
 			<dd id="ticket-id"></dd>
 
+			<dt>Ticket Type</dt>
+			<dd id="ticket-name"></dd>
+
 			<dt>Contact</dt>
 			<dd id="phone-number"></dd>
-
 		</dl>
 
-		<div class="error-msg">
+		<div class="error-msg text-center">
 			The Link entered is Invalid.
 		</div>
 	</div>
@@ -46,31 +43,30 @@
 	<script src="/static/js/script.js"></script>
 
 	<script type="text/javascript">
-
 		const BASE_URL = "{{ base_url }}";
 
 		function get_ticket(ticket_id) {
 			return $.get(`${BASE_URL}/api/ticket/${ticket_id}`).then(res => {
-				console.log(res);
 				$("#user-name").html(`${res.name}`);
 				$("#ticket-id").html(`${res.ticket_id}`);
+				$("#ticket-name").html(`${res.status}`);
 				$("#phone-number").html(`${res.phone_number}`);
 				return res;
-			})
+			});
 		}
 
-		$(() => {
-				const ticket_id = "{{ ticket_id }}";
-				get_ticket(ticket_id).then(res => {
-					new QRCode(document.getElementById("qrcode"), {
-						text: `${BASE_URL}/ticket/${ticket_id}`,
-						width: 120,
-						height: 120
-					});
-				}).fail(err => {
-					$(".main").addClass('error');
-				})
-		})
+		$(document).ready(function () {
+			const ticket_id = "{{ ticket_id }}";
+			get_ticket(ticket_id).then(res => {
+				new QRCode(document.getElementById("qrcode"), {
+					text: `${BASE_URL}/ticket/${ticket_id}`,
+					width: 120,
+					height: 120
+				});
+			}).fail(() => {
+				$(".ticket").addClass('error');
+			});
+		});
 	</script>
 </body>
 </html>
